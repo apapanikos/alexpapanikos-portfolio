@@ -32,7 +32,7 @@ export const SERVICES = [
     title: 'Full-stack builds',
     description:
       'Whole features, or whole products. Next.js or Nuxt on the front, Postgres behind it, TypeScript the whole way through.',
-    points: ['Next.js', 'Vue & Nuxt', 'Supabase', 'Postgres'],
+    points: ['Next.js', 'Vue & Nuxt', 'Supabase', 'Postgres', 'TypeScript'],
   },
   {
     title: 'MVPs for founders',
@@ -43,8 +43,32 @@ export const SERVICES = [
   {
     title: 'Frontend work',
     description:
-      "Where I started, and still the part I'm quickest at. Design systems, awkward state, accessibility, and pages that stay fast on a bad connection.",
-    points: ['React & Vue', 'Angular & NgRx', 'Design systems', 'Web Vitals'],
+      "Where I started, and still the part I'm quickest at. Design systems that scale, awkward state, accessibility, and Core Web Vitals — pages that stay fast on a bad connection and maintainable as the team grows.",
+    points: [
+      'React & Vue',
+      'Angular & NgRx',
+      'Design systems',
+      'Web Vitals',
+      'Accessibility',
+    ],
+  },
+  {
+    title: 'Performance & scalability',
+    description:
+      'When a site got slow, or a codebase stopped scaling with the team. I profile and fix Core Web Vitals, rendering and bundle bloat, and reshape component and design-system architecture so it holds up as the product and the org grow.',
+    points: ['Core Web Vitals', 'Rendering/SSR', 'Bundle size', 'Caching', 'Scale'],
+  },
+  {
+    title: 'AI features & integration',
+    description:
+      'Adding intelligence to a product without a research team. LLM-powered features, chat and assistant UIs, tool calling, and lightweight retrieval over your own data — integrated cleanly into a Next.js + Supabase app and shipped.',
+    points: [
+      'LLM integration',
+      'Vercel AI SDK',
+      'RAG (pgvector)',
+      'Tool calling',
+      'Chat UIs',
+    ],
   },
   {
     title: 'Ongoing contracts',
@@ -58,20 +82,65 @@ export const SERVICES = [
  * Two tiers, deliberately not equal. The hero stays generic, so this is where
  * the site is specific about what's senior-level and what isn't.
  */
+export const EXPERTISE_INTRO =
+  "Honest tiers. Frontend is where I'm senior. Full-stack is where I ship on my own. AI is how I move fast across both — worth being clear which is which before you hire anyone.";
+
 export const EXPERTISE = [
   {
     tier: 'Primary',
     title: 'Frontend',
     summary:
-      "Most of my career has been here, and it's where I lead teams. Design systems, state that got complicated, accessibility, and pages that stay fast on a bad connection. This is the part I'd stake a reputation on.",
-    skills: ['React', 'Next.js', 'Vue', 'TypeScript', 'JavaScript', 'shadcn/ui'],
+      "Most of my career, and where I lead teams. Design systems that scale across products and squads, state that got complicated, a high accessibility bar, and pages that stay fast under real conditions — Core Web Vitals, render and bundle budgets, the lot. This is the part I'd stake my reputation on.",
+    skills: [
+      'React',
+      'Next.js',
+      'Vue',
+      'Angular',
+      'TypeScript',
+      'JavaScript',
+      'Tailwind',
+      'shadcn/ui',
+      'Framer Motion',
+      'TanStack Query',
+      'Astro',
+      'Web Vitals',
+      'Accessibility (WCAG)',
+      'Design systems',
+      'Playwright/Vitest',
+    ],
   },
   {
     tier: 'Secondary',
     title: 'Full-stack',
     summary:
-      "Enough to take a product from schema to shipped on my own: auth, data model, and the security rules that keep one customer's data away from another's. I use AI tooling to move quickly outside my core, and I'd rather say that plainly than imply the same depth I have on the frontend.",
-    skills: ['Supabase', 'Postgres', 'Auth & RLS', 'Edge Functions', 'Stripe'],
+      "Enough to take a product from schema to shipped on my own: auth, data model, and the row-level security that keeps one customer's data off another's. Edge functions, payments, third-party integrations, built to scale sensibly. I use AI tooling to move quickly outside my core — and I'd rather say that plainly than imply the same depth I have on the frontend.",
+    skills: [
+      'Supabase',
+      'Postgres',
+      'Auth & RLS',
+      'Edge Functions',
+      'Stripe',
+      'REST APIs',
+      'Node.js',
+      'Serverless',
+      'Vercel',
+    ],
+  },
+  {
+    tier: 'Cross-cutting',
+    title: 'AI',
+    summary:
+      'How I work, and increasingly what I build. I orchestrate AI tools across my workflow to deliver faster and span stacks I don’t live in — and I build AI-powered features into real products: LLM integration, chat and assistant UIs, tool calling, and lightweight retrieval (RAG) over your own data on Postgres/pgvector via the Vercel AI SDK. This is application-level AI: integrating and orchestrating models, not training them or running ML infrastructure.',
+    skills: [
+      'LLM integration',
+      'Vercel AI SDK',
+      'Claude/OpenAI APIs',
+      'RAG (pgvector)',
+      'Tool calling',
+      'Prompt design',
+      'Agentic workflows',
+      'AI-augmented delivery',
+    ],
   },
 ] as const;
 

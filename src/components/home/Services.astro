@@ -24,7 +24,10 @@ import { SERVICES } from '../../consts';
       </p>
     </div>
 
-    <ul class="mt-14 grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2">
+    {/* Six cards: two up at sm, a clean 3x2 from lg. */}
+    <ul
+      class="mt-14 grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2 lg:grid-cols-3"
+    >
       {
         SERVICES.map((service, index) => (
           <li
