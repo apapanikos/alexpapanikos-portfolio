@@ -10,18 +10,15 @@ export const SITE = {
   location: 'Athens, Greece',
   /** Short positioning line. Also the default meta description. */
   description:
-    'Full-stack engineer in Athens. I build web apps end to end in TypeScript, usually Next.js or Vue on the front and Supabase or Node behind it.',
-  email: 'hello@example.com',
+    'Full-stack engineer in Athens. I build web apps end to end in TypeScript — Next.js or Vue on the front, Supabase and Postgres behind it — and lead a team of ten by day.',
+  email: 'alexanderpapanikos@gmail.com',
   /** Availability line in the hero. Set to null to hide the badge entirely. */
   availability: 'Available for freelance work',
 } as const;
 
-/** Replace the placeholder URLs — they are the only ones in the project. */
 export const LINKS = [
-  { label: 'GitHub', href: 'https://github.com/your-handle' },
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/your-handle' },
-  { label: 'Upwork', href: 'https://www.upwork.com/freelancers/your-handle' },
-  { label: 'Malt', href: 'https://www.malt.com/profile/your-handle' },
+  { label: 'GitHub', href: 'https://github.com/apapanikos' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/alexpapanikos' },
 ] as const;
 
 export const NAV = [
@@ -34,8 +31,8 @@ export const SERVICES = [
   {
     title: 'Full-stack builds',
     description:
-      'Whole features, or whole products. Next.js or Nuxt on the front, Supabase or Node behind it, TypeScript the whole way through.',
-    points: ['Next.js', 'Vue & Nuxt', 'Supabase', 'Node'],
+      'Whole features, or whole products. Next.js or Nuxt on the front, Postgres behind it, TypeScript the whole way through.',
+    points: ['Next.js', 'Vue & Nuxt', 'Supabase', 'Postgres'],
   },
   {
     title: 'MVPs for founders',
@@ -47,13 +44,41 @@ export const SERVICES = [
     title: 'Frontend work',
     description:
       "Where I started, and still the part I'm quickest at. Design systems, awkward state, accessibility, and pages that stay fast on a bad connection.",
-    points: ['React & Vue', 'Design systems', 'Accessibility', 'Web Vitals'],
+    points: ['React & Vue', 'Angular & NgRx', 'Design systems', 'Web Vitals'],
   },
   {
     title: 'Ongoing contracts',
     description:
       "A few days a month, for as long as it's useful. Feature work, code review, refactors, and being around to answer questions.",
     points: ['Part-time retainer', 'Code review', 'Refactors', 'Mentoring'],
+  },
+] as const;
+
+/**
+ * Compact track record. Employers are described rather than named, so the site
+ * doesn't advertise freelance availability alongside a current employer's brand.
+ */
+export const EXPERIENCE = [
+  {
+    period: '2023 — now',
+    role: 'Software Engineering Team Lead',
+    org: "One of the world's largest iGaming companies",
+    detail:
+      'Joined as a senior engineer on sportsbook and casino reward systems, then took over the team. Ten engineers across web and mobile, plus the internal frontend library the company builds its products on.',
+  },
+  {
+    period: '2019 — 2023',
+    role: 'Lead Frontend Engineer',
+    org: 'B2B retail analytics',
+    detail:
+      'Led four engineers building B2B platforms. Moved the Angular workspace to Nx for build times that scaled, and designed the async multi-chunk upload the product ran on.',
+  },
+  {
+    period: '2021 — now',
+    role: 'Freelance',
+    org: 'Independent',
+    detail:
+      'Client work and my own products, alongside the day job. Everything on this page came out of that time.',
   },
 ] as const;
 
