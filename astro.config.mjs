@@ -6,11 +6,21 @@ import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
 /**
- * Absolute site URL. Needed for canonical tags, Open Graph and the sitemap.
- * Set PUBLIC_SITE_URL in Vercel's project settings; the fallback keeps local
- * builds working. See .env.example.
+ * Absolute site URL, used for canonical tags, Open Graph and the sitemap.
+ *
+ * Resolution order:
+ *  1. PUBLIC_SITE_URL, if you want to pin it explicitly.
+ *  2. VERCEL_PROJECT_PRODUCTION_URL, which Vercel sets at build time to the
+ *     shortest production domain — your custom domain once one is attached,
+ *     the .vercel.app domain before that. Set even on preview builds, so
+ *     preview deployments still emit canonical URLs pointing at production.
+ *  3. A localhost fallback for `npm run build` with neither set.
  */
-const site = process.env.PUBLIC_SITE_URL ?? 'https://alexpapanikos.dev';
+const vercelProductionUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL;
+
+const site =
+  process.env.PUBLIC_SITE_URL ??
+  (vercelProductionUrl ? `https://${vercelProductionUrl}` : 'http://localhost:4321');
 
 // https://astro.build/config
 export default defineConfig({
