@@ -1,0 +1,82 @@
+---
+import { Font } from 'astro:assets';
+import { SITE, LINKS } from '../consts';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Path to an OG image, relative to the site root. */
+  image?: string;
+  type?: 'website' | 'article';
+  /** Set on pages that should not appear in search results. */
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description = SITE.description,
+  image = '/og-default.png',
+  type = 'website',
+  noindex = false,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).href.replace(
+  /(.+)\/$/,
+  '$1',
+);
+const ogImage = new URL(image, Astro.site).href;
+
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: SITE.name,
+  jobTitle: SITE.jobTitle,
+  description: SITE.description,
+  email: `mailto:${SITE.email}`,
+  url: Astro.site?.href,
+  address: { '@type': 'PostalAddress', addressLocality: 'Athens', addressCountry: 'GR' },
+  sameAs: LINKS.map((link) => link.href),
+};
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content={Astro.generator} />
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="/favicon.ico" sizes="32x32" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="sitemap" href="/sitemap-index.xml" />
+
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content={SITE.name} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:locale" content="en_GB" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+{/* Match --bg in src/styles/global.css for both themes. */}
+<meta name="theme-color" content="#fdfdfe" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0a0c10" media="(prefers-color-scheme: dark)" />
+
+<Font cssVariable="--font-geist" preload />
+<Font cssVariable="--font-geist-mono" />
+
+<script
+  type="application/ld+json"
+  is:inline
+  set:html={JSON.stringify(person)}
+/>

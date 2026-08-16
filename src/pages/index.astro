@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/home/Hero.astro';
+import Services from '../components/home/Services.astro';
+import SelectedWork from '../components/home/SelectedWork.astro';
+import ContactCta from '../components/home/ContactCta.astro';
+import { SITE } from '../consts';
+---
+
+<BaseLayout title={`${SITE.name} — ${SITE.jobTitle} in ${SITE.location}`} bareTitle>
+  <Hero />
+  <Services />
+  <SelectedWork />
+  <ContactCta />
+</BaseLayout>

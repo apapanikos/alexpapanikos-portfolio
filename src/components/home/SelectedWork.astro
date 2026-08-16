@@ -1,0 +1,46 @@
+---
+import { getCollection } from 'astro:content';
+import Container from '../Container.astro';
+import Eyebrow from '../Eyebrow.astro';
+import SectionGrid from '../SectionGrid.astro';
+import WorkCard from '../WorkCard.astro';
+
+const caseStudies = (
+  await getCollection('caseStudies', ({ data }) => data.featured && !data.draft)
+).sort((a, b) => a.data.order - b.data.order);
+---
+
+<section
+  id="work"
+  class="relative scroll-mt-24 border-t border-border py-20 sm:py-28"
+>
+  {/* No texture here: the cards carry the geometry already. */}
+  <SectionGrid marks="top" />
+
+  <Container class="relative">
+    <div class="max-w-2xl">
+      <Eyebrow data-reveal>Selected work</Eyebrow>
+      <h2 data-reveal style="--reveal-delay: 60ms" class="mt-5 text-title font-semibold">
+        Recent projects.
+      </h2>
+    </div>
+
+    {
+      caseStudies.length > 0 ? (
+        <div class="mt-14 grid gap-x-10 gap-y-16 sm:grid-cols-2">
+          {caseStudies.map((entry, index) => (
+            <WorkCard entry={entry} index={index} />
+          ))}
+        </div>
+      ) : (
+        <p class="mt-14 rounded-2xl border border-dashed border-border p-8 text-muted">
+          No case studies yet. Add a Markdown file to
+          <code class="mx-1 rounded bg-surface px-1.5 py-0.5 text-sm">
+            src/content/case-studies/
+          </code>
+          and it will appear here.
+        </p>
+      )
+    }
+  </Container>
+</section>

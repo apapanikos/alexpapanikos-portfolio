@@ -1,0 +1,314 @@
+@import 'tailwindcss';
+
+/* Class-based dark mode, toggled on <html> by the inline script in BaseLayout. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------------------------------------------------------------------------
+   Palette
+   Cool graphite neutrals with a single deep jade accent. Defined as raw
+   CSS variables so both themes can swap them, then exposed to Tailwind via
+   @theme inline. Every text pair below meets WCAG AA — re-check if you retune.
+--------------------------------------------------------------------------- */
+
+:root {
+  color-scheme: light;
+
+  --bg: oklch(0.995 0.0015 250);
+  --surface: oklch(0.975 0.003 250);
+  --surface-2: oklch(0.95 0.004 250);
+  --border: oklch(0.91 0.005 250);
+  --border-strong: oklch(0.74 0.008 255);
+  --fg: oklch(0.2 0.014 265);
+  --fg-muted: oklch(0.47 0.013 265);
+  --fg-subtle: oklch(0.52 0.013 265);
+  --accent: oklch(0.48 0.112 158);
+  --accent-hover: oklch(0.41 0.098 158);
+  --accent-fg: oklch(0.995 0.0015 250);
+  --accent-soft: oklch(0.48 0.112 158 / 0.09);
+  --ring: oklch(0.48 0.112 158 / 0.6);
+}
+
+.dark {
+  color-scheme: dark;
+
+  --bg: oklch(0.155 0.009 265);
+  --surface: oklch(0.195 0.01 265);
+  --surface-2: oklch(0.235 0.011 265);
+  --border: oklch(0.3 0.013 265);
+  --border-strong: oklch(0.5 0.016 265);
+  --fg: oklch(0.97 0.004 265);
+  --fg-muted: oklch(0.73 0.013 265);
+  --fg-subtle: oklch(0.645 0.015 265);
+  --accent: oklch(0.75 0.145 158);
+  --accent-hover: oklch(0.83 0.13 160);
+  --accent-fg: oklch(0.16 0.02 160);
+  --accent-soft: oklch(0.75 0.145 158 / 0.14);
+  --ring: oklch(0.75 0.145 158 / 0.65);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-fg: var(--fg);
+  --color-muted: var(--fg-muted);
+  --color-subtle: var(--fg-subtle);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-fg: var(--accent-fg);
+  --color-accent-soft: var(--accent-soft);
+  --color-ring: var(--ring);
+
+  --font-sans: var(--font-geist);
+  --font-mono: var(--font-geist-mono);
+
+  --text-display: clamp(2.6rem, 1.55rem + 4.4vw, 4.35rem);
+  --text-display--line-height: 0.98;
+  --text-display--letter-spacing: -0.04em;
+
+  --text-title: clamp(1.75rem, 1.2rem + 2.2vw, 2.75rem);
+  --text-title--line-height: 1.08;
+  --text-title--letter-spacing: -0.03em;
+
+  /* Mono label used for eyebrows, indices and metadata. */
+  --text-label: 0.6875rem;
+  --text-label--line-height: 1;
+  --text-label--letter-spacing: 0.1em;
+
+  --ease-out-quart: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ---------------------------------------------------------------------------
+   Base
+--------------------------------------------------------------------------- */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Keep anchored sections clear of the sticky header. */
+    scroll-padding-top: 6rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* One visible, consistent focus ring everywhere. */
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background-color: var(--accent);
+    color: var(--accent-fg);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Numerals line up in stat rows and year columns. */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /*
+   * Decorative engineering grid. Two repeating gradients, no image request.
+   * The fade modifiers are sized in percentages so the ellipse always tracks
+   * the element rather than cutting off at a fixed radius.
+   */
+  .grid-field {
+    background-image:
+      linear-gradient(to right, var(--border) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+
+  .grid-fade-tl {
+    -webkit-mask-image: radial-gradient(
+      ellipse 95% 95% at 16% 0%,
+      #000 0%,
+      transparent 70%
+    );
+    mask-image: radial-gradient(ellipse 95% 95% at 16% 0%, #000 0%, transparent 70%);
+  }
+
+  .grid-fade-br {
+    -webkit-mask-image: radial-gradient(
+      ellipse 70% 110% at 90% 100%,
+      #000 0%,
+      transparent 72%
+    );
+    mask-image: radial-gradient(ellipse 70% 110% at 90% 100%, #000 0%, transparent 72%);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Long-form content
+
+   Hand-rolled instead of @tailwindcss/typography: one dependency fewer, and
+   these are the only elements Markdown case studies actually produce.
+--------------------------------------------------------------------------- */
+
+.prose {
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--fg-muted);
+}
+
+.prose > * + * {
+  margin-top: 1.35em;
+}
+
+.prose h2,
+.prose h3 {
+  color: var(--fg);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  scroll-margin-top: 6rem;
+}
+
+.prose h2 {
+  margin-top: 2.75em;
+  font-size: 1.5rem;
+  line-height: 1.25;
+}
+
+.prose h3 {
+  margin-top: 2em;
+  font-size: 1.175rem;
+  line-height: 1.35;
+}
+
+.prose strong {
+  color: var(--fg);
+  font-weight: 600;
+}
+
+.prose a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: color-mix(in oklch, var(--accent) 40%, transparent);
+  transition: text-decoration-color 0.2s;
+}
+
+.prose a:hover {
+  text-decoration-color: var(--accent);
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.35em;
+}
+
+.prose ul {
+  list-style: disc;
+}
+
+.prose ol {
+  list-style: decimal;
+}
+
+.prose li::marker {
+  color: var(--fg-subtle);
+}
+
+.prose li + li {
+  margin-top: 0.5em;
+}
+
+.prose blockquote {
+  border-left: 2px solid var(--accent);
+  padding-left: 1.25em;
+  font-style: italic;
+  color: var(--fg);
+}
+
+.prose code {
+  background-color: var(--surface-2);
+  border-radius: 0.3rem;
+  padding: 0.15em 0.4em;
+  font-size: 0.875em;
+}
+
+.prose pre {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.9rem;
+  padding: 1.1rem 1.25rem;
+  overflow-x: auto;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.prose pre code {
+  background: none;
+  padding: 0;
+  font-size: inherit;
+}
+
+.prose hr {
+  border-color: var(--border);
+  margin-block: 2.75em;
+}
+
+.prose img {
+  border-radius: 0.9rem;
+  border: 1px solid var(--border);
+}
+
+/* ---------------------------------------------------------------------------
+   Scroll reveal
+
+   Content is only hidden once JS has confirmed it can reveal it again (the
+   `.js` class), and never under reduced-motion. No-JS visitors see everything.
+--------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  html.js [data-reveal] {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+    transition:
+      opacity 0.7s var(--ease-out-quart),
+      transform 0.7s var(--ease-out-quart);
+    transition-delay: var(--reveal-delay, 0ms);
+    will-change: opacity, transform;
+  }
+
+  html.js [data-reveal].is-revealed {
+    opacity: 1;
+    transform: none;
+    will-change: auto;
+  }
+}

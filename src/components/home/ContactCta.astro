@@ -1,0 +1,61 @@
+---
+import Container from '../Container.astro';
+import Eyebrow from '../Eyebrow.astro';
+import Cta from '../Cta.astro';
+import SectionGrid from '../SectionGrid.astro';
+import { LINKS, MAILTO, SITE } from '../../consts';
+---
+
+<section
+  id="contact"
+  class="relative scroll-mt-24 border-t border-border py-20 sm:py-28"
+>
+  <SectionGrid />
+
+  <Container class="relative">
+    <div
+      class="relative overflow-hidden rounded-lg border border-border bg-surface px-7 py-14 sm:px-14 sm:py-20"
+    >
+      <div
+        aria-hidden="true"
+        class="grid-field grid-fade-br pointer-events-none absolute inset-0"
+      >
+      </div>
+
+      <div class="relative max-w-2xl">
+        <Eyebrow data-reveal>Contact</Eyebrow>
+        <h2 data-reveal style="--reveal-delay: 60ms" class="mt-5 text-title font-semibold">
+          Tell me what you're building.
+        </h2>
+        <p data-reveal style="--reveal-delay: 120ms" class="mt-5 text-lg text-muted">
+          Email me with what you're building and roughly when you need it. I read
+          everything and usually reply within a day or two.
+        </p>
+
+        <div
+          data-reveal
+          style="--reveal-delay: 180ms"
+          class="mt-10 flex flex-wrap items-center gap-x-3 gap-y-4"
+        >
+          <Cta href={MAILTO}>{SITE.email}</Cta>
+          <ul class="flex flex-wrap items-center gap-x-5 gap-y-2 sm:ml-3">
+            {
+              LINKS.map((link) => (
+                <li>
+                  <a
+                    href={link.href}
+                    target="_blank"
+                    rel="me noopener noreferrer"
+                    class="rounded-sm text-sm text-muted underline decoration-border-strong underline-offset-4 transition-colors duration-200 hover:text-accent hover:decoration-accent"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+  </Container>
+</section>

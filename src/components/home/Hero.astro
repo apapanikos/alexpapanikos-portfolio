@@ -1,0 +1,65 @@
+---
+import Container from '../Container.astro';
+import Cta from '../Cta.astro';
+import SectionGrid from '../SectionGrid.astro';
+import { MAILTO, SITE } from '../../consts';
+---
+
+<section class="relative overflow-hidden">
+  {/* Decorative engineering grid, masked so it dissolves into the page. */}
+  <div
+    aria-hidden="true"
+    class="grid-field grid-fade-tl pointer-events-none absolute inset-x-0 -top-16 h-[38rem]"
+  >
+  </div>
+
+  {/* Rails only — the marks belong to the section border below. */}
+  <SectionGrid marks="none" />
+
+  <Container class="relative pt-20 pb-16 sm:pt-28 sm:pb-24 lg:pt-36 lg:pb-32">
+    {
+      SITE.availability && (
+        <p
+          data-reveal
+          class="flex items-center gap-2.5 font-mono text-label text-muted uppercase"
+        >
+          <span class="size-1.5 bg-accent" aria-hidden="true" />
+          {SITE.availability}
+          <span aria-hidden="true" class="text-border-strong">
+            /
+          </span>
+          {SITE.location}
+        </p>
+      )
+    }
+
+    <h1
+      data-reveal
+      style="--reveal-delay: 80ms"
+      class="mt-8 max-w-4xl text-display font-semibold"
+    >
+      I build web apps <span class="text-accent whitespace-nowrap">end to end</span>,
+      mostly in TypeScript.
+    </h1>
+
+    <p
+      data-reveal
+      style="--reveal-delay: 160ms"
+      class="mt-8 max-w-xl text-lg leading-relaxed text-muted sm:text-xl"
+    >
+      I'm {SITE.name}, an engineer in {SITE.location}, working freelance and part-time.
+      Usually that means <span class="text-fg">Next.js or Vue</span> on the front and{' '}
+      <span class="text-fg">Supabase or Node</span> behind it. I came up through the frontend,
+      so the interface tends to come out better than you'd expect from a team of one.
+    </p>
+
+    <div
+      data-reveal
+      style="--reveal-delay: 240ms"
+      class="mt-10 flex flex-wrap items-center gap-3"
+    >
+      <Cta href={MAILTO}>Get in touch</Cta>
+      <Cta href="#work" variant="outline">See recent work</Cta>
+    </div>
+  </Container>
+</section>

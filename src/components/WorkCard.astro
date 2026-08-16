@@ -1,0 +1,74 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  entry: CollectionEntry<'caseStudies'>;
+  /** Stagger index for the reveal animation. */
+  index?: number;
+}
+
+const { entry, index = 0 } = Astro.props;
+const { title, summary, role, year, stack, cover, coverAlt } = entry.data;
+const href = `/work/${entry.id}`;
+---
+
+<article
+  data-reveal
+  style={`--reveal-delay: ${index * 90}ms`}
+  class="group relative flex flex-col"
+>
+  <div
+    class="relative aspect-[16/10] overflow-hidden rounded-lg border border-border bg-surface"
+  >
+    {
+      cover ? (
+        <Image
+          src={cover}
+          alt={coverAlt}
+          widths={[480, 800, 1200]}
+          sizes="(min-width: 1024px) 44vw, (min-width: 640px) 88vw, 92vw"
+          loading={index < 2 ? 'eager' : 'lazy'}
+          class="size-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+        />
+      ) : (
+        // Placeholder until a cover image is added to the frontmatter.
+        <div
+          aria-hidden="true"
+          class="grid-field grid size-full place-items-center bg-surface"
+        >
+          <span class="font-mono text-5xl font-medium text-subtle/40 tabular">
+            {String(index + 1).padStart(2, '0')}
+          </span>
+        </div>
+      )
+    }
+  </div>
+
+  <div class="mt-6 flex flex-1 flex-col">
+    <div class="flex items-baseline justify-between gap-4">
+      <h3 class="text-xl font-semibold tracking-tight">
+        {/* Stretched link keeps the whole card clickable with one focus stop. */}
+        <a
+          href={href}
+          class="transition-colors duration-200 after:absolute after:inset-0 after:rounded-lg group-hover:text-accent"
+        >
+          {title}
+          <span
+            class="ml-1 inline-block transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none"
+            aria-hidden="true">→</span
+          >
+        </a>
+      </h3>
+      <span class="shrink-0 font-mono text-label text-subtle tabular">{year}</span>
+    </div>
+
+    <p class="mt-3 leading-relaxed text-muted">{summary}</p>
+
+    <p class="mt-5 font-mono text-[0.6875rem] text-subtle uppercase">
+      {role}
+      <span aria-hidden="true" class="mx-2 text-border-strong">/</span>
+      {stack.slice(0, 4).join(' · ')}
+    </p>
+  </div>
+</article>

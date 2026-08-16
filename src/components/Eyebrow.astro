@@ -1,0 +1,18 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+type Props = HTMLAttributes<'p'>;
+
+const { class: className, ...rest } = Astro.props;
+---
+
+<p
+  class:list={[
+    'flex items-center gap-2.5 font-mono text-label text-subtle uppercase',
+    className,
+  ]}
+  {...rest}
+>
+  <span aria-hidden="true" class="size-1.5 bg-accent"></span>
+  <slot />
+</p>

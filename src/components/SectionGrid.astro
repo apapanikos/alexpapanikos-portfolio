@@ -1,0 +1,68 @@
+---
+/**
+ * Decorative page grid: two vertical hairlines at the container edges, with a
+ * small plus mark where each one meets the section border. Purely visual, so
+ * the whole thing is aria-hidden and pointer-events-none.
+ *
+ * Drop it as the first child of a `relative` section, then give that section's
+ * <Container> a `relative` class so content sits above it.
+ *
+ * The rails only appear from `xl` up. Below that the container is as wide as
+ * the viewport, so they would hug the screen edges and read as a glitch rather
+ * than as structure.
+ */
+interface Props {
+  /** Faint grid texture across the section, behind the rails. */
+  texture?: boolean;
+  /** Which corners get a plus mark. Sections that butt together only need the top. */
+  marks?: 'both' | 'top' | 'bottom' | 'none';
+  class?: string;
+}
+
+const { texture = false, marks = 'both', class: className = '' }: Props = Astro.props;
+
+const showTop = marks === 'both' || marks === 'top';
+const showBottom = marks === 'both' || marks === 'bottom';
+
+const markClass = 'absolute hidden size-[9px] text-border-strong xl:block';
+---
+
+<div
+  aria-hidden="true"
+  class:list={['pointer-events-none absolute inset-0 z-0', className]}
+>
+  {
+    texture && (
+      <div class="absolute inset-0 overflow-hidden">
+        <div class="grid-field grid-fade-tl absolute inset-0 opacity-60" />
+      </div>
+    )
+  }
+
+  <div class="relative mx-auto h-full w-full max-w-6xl xl:border-x xl:border-border">
+    {
+      showTop && (
+        <>
+          <svg class:list={[markClass, 'top-0 left-0 -translate-x-1/2 -translate-y-1/2']} viewBox="0 0 9 9">
+            <path d="M4.5 0v9M0 4.5h9" stroke="currentColor" stroke-width="1" />
+          </svg>
+          <svg class:list={[markClass, 'top-0 right-0 translate-x-1/2 -translate-y-1/2']} viewBox="0 0 9 9">
+            <path d="M4.5 0v9M0 4.5h9" stroke="currentColor" stroke-width="1" />
+          </svg>
+        </>
+      )
+    }
+    {
+      showBottom && (
+        <>
+          <svg class:list={[markClass, 'bottom-0 left-0 -translate-x-1/2 translate-y-1/2']} viewBox="0 0 9 9">
+            <path d="M4.5 0v9M0 4.5h9" stroke="currentColor" stroke-width="1" />
+          </svg>
+          <svg class:list={[markClass, 'right-0 bottom-0 translate-x-1/2 translate-y-1/2']} viewBox="0 0 9 9">
+            <path d="M4.5 0v9M0 4.5h9" stroke="currentColor" stroke-width="1" />
+          </svg>
+        </>
+      )
+    }
+  </div>
+</div>

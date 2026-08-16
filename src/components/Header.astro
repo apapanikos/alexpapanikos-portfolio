@@ -1,0 +1,43 @@
+---
+import Container from './Container.astro';
+import ThemeToggle from './ThemeToggle.astro';
+import { NAV, SITE } from '../consts';
+---
+
+<header
+  class="sticky top-0 z-40 border-b border-border/70 bg-bg/80 backdrop-blur-md supports-[backdrop-filter]:bg-bg/65"
+>
+  <Container class="flex h-16 items-center justify-between gap-4">
+    <a
+      href="/"
+      class="group flex items-center gap-2.5 rounded-sm text-[0.95rem] font-semibold tracking-tight whitespace-nowrap"
+    >
+      <span
+        aria-hidden="true"
+        class="size-2.5 bg-accent transition-transform duration-300 ease-out group-hover:rotate-45"
+      ></span>
+      {SITE.name}
+      <span class="sr-only">— home</span>
+    </a>
+
+    <nav aria-label="Primary" class="flex items-center gap-1 sm:gap-2">
+      {
+        NAV.map((item, index) => (
+          <a
+            href={item.href}
+            class:list={[
+              'rounded-md px-2.5 py-1.5 text-sm text-muted transition-colors duration-200 hover:text-fg sm:px-3',
+              // The first link is the least essential; it makes room on
+              // narrow screens rather than hiding behind a hamburger menu.
+              index === 0 && 'hidden sm:inline-flex',
+            ]}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+      <span aria-hidden="true" class="mx-1 h-5 w-px bg-border"></span>
+      <ThemeToggle />
+    </nav>
+  </Container>
+</header>

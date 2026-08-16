@@ -1,0 +1,249 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/Container.astro';
+import Eyebrow from '../../components/Eyebrow.astro';
+import Cta from '../../components/Cta.astro';
+import SectionGrid from '../../components/SectionGrid.astro';
+import { MAILTO } from '../../consts';
+
+export const getStaticPaths = (async () => {
+  const entries = (
+    await getCollection('caseStudies', ({ data }) => import.meta.env.DEV || !data.draft)
+  ).sort((a, b) => a.data.order - b.data.order);
+
+  return entries.map((entry, index) => ({
+    params: { slug: entry.id },
+    props: {
+      entry,
+      // Wraps around so the last case study still points somewhere useful.
+      next: entries[(index + 1) % entries.length]!,
+    },
+  }));
+}) satisfies GetStaticPaths;
+
+const { entry, next } = Astro.props;
+const {
+  title,
+  summary,
+  role,
+  client,
+  year,
+  stack,
+  problem,
+  solution,
+  outcome,
+  metrics,
+  cover,
+  coverAlt,
+  gallery,
+  liveUrl,
+  repoUrl,
+} = entry.data;
+
+const { Content } = await render(entry);
+
+const story = [
+  { label: 'Problem', body: problem },
+  { label: 'Solution', body: solution },
+  { label: 'Outcome', body: outcome },
+];
+
+const facts = [
+  { label: 'Role', value: role },
+  client ? { label: 'Client', value: client } : null,
+  { label: 'Year', value: String(year) },
+].filter((fact) => fact !== null);
+
+const hasNext = next.id !== entry.id;
+---
+
+<BaseLayout title={title} description={summary} type="article">
+  <article>
+    <Container class="pt-14 pb-16 sm:pt-20">
+      <a
+        href="/#work"
+        class="inline-flex items-center gap-2 rounded-sm text-sm text-muted transition-colors duration-200 hover:text-fg"
+      >
+        <span aria-hidden="true">←</span> All work
+      </a>
+
+      <header class="mt-10">
+        <Eyebrow>{client ?? 'Case study'} · {year}</Eyebrow>
+        <h1 class="mt-5 max-w-4xl text-title font-semibold">{title}</h1>
+        <p class="mt-6 max-w-2xl text-lg leading-relaxed text-muted sm:text-xl">
+          {summary}
+        </p>
+      </header>
+
+      <dl
+        class="mt-12 grid gap-8 border-y border-border py-8 sm:grid-cols-2 lg:grid-cols-4"
+      >
+        {
+          facts.map((fact) => (
+            <div>
+              <dt class="font-mono text-label text-subtle uppercase">
+                {fact.label}
+              </dt>
+              <dd class="mt-2 text-sm">{fact.value}</dd>
+            </div>
+          ))
+        }
+        <div>
+          <dt class="font-mono text-label text-subtle uppercase">
+            Stack
+          </dt>
+          <dd class="mt-2 flex flex-wrap gap-1.5">
+            {
+              stack.map((tech) => (
+                <span class="rounded border border-border bg-surface px-2 py-1 font-mono text-[0.6875rem] text-muted">
+                  {tech}
+                </span>
+              ))
+            }
+          </dd>
+        </div>
+      </dl>
+
+      {
+        (liveUrl || repoUrl) && (
+          <div class="mt-8 flex flex-wrap gap-3">
+            {liveUrl && (
+              <Cta href={liveUrl} external>
+                Visit the live site
+              </Cta>
+            )}
+            {repoUrl && (
+              <Cta href={repoUrl} variant="outline" external>
+                View the code
+              </Cta>
+            )}
+          </div>
+        )
+      }
+    </Container>
+
+    {
+      cover && (
+        <Container width="wide">
+          <div
+            data-reveal
+            class="overflow-hidden rounded-lg border border-border bg-surface"
+          >
+            <Image
+              src={cover}
+              alt={coverAlt}
+              widths={[640, 1024, 1536, 2048]}
+              sizes="(min-width: 1536px) 1400px, 96vw"
+              loading="eager"
+              fetchpriority="high"
+              class="w-full"
+            />
+          </div>
+        </Container>
+      )
+    }
+
+    <div class="relative">
+      {/* Three columns of text and a lot of air — the texture earns its place. */}
+      <SectionGrid marks="none" texture />
+      <Container class="relative py-16 sm:py-24">
+        <div class="grid gap-10 sm:grid-cols-3">
+          {
+            story.map((part, index) => (
+              <section data-reveal style={`--reveal-delay: ${index * 80}ms`}>
+                <h2 class="font-mono text-label text-accent uppercase">{part.label}</h2>
+                <p class="mt-4 leading-relaxed text-muted">{part.body}</p>
+              </section>
+            ))
+          }
+        </div>
+
+        {
+          metrics.length > 0 && (
+            <dl
+              data-reveal
+              class="mt-16 grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-3"
+            >
+              {metrics.map((metric) => (
+                <div class="bg-bg p-7">
+                  <dt class="text-sm text-muted">{metric.label}</dt>
+                  <dd class="mt-2 text-3xl font-semibold tracking-tight tabular">
+                    {metric.value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          )
+        }
+      </Container>
+    </div>
+
+    <Container width="prose" class="pb-16 sm:pb-24">
+      <div class="prose">
+        <Content />
+      </div>
+    </Container>
+
+    {
+      gallery.length > 0 && (
+        <Container width="wide" class="pb-16 sm:pb-24">
+          <div class="grid gap-6 sm:grid-cols-2">
+            {gallery.map((item, index) => (
+              <figure
+                data-reveal
+                style={`--reveal-delay: ${index * 70}ms`}
+                class="overflow-hidden rounded-lg border border-border bg-surface"
+              >
+                <Image
+                  src={item.src}
+                  alt={item.alt}
+                  widths={[560, 900, 1400]}
+                  sizes="(min-width: 640px) 46vw, 92vw"
+                  loading="lazy"
+                  class="w-full"
+                />
+              </figure>
+            ))}
+          </div>
+        </Container>
+      )
+    }
+  </article>
+
+  <section class="relative border-t border-border py-16 sm:py-20">
+    <SectionGrid marks="top" />
+
+    <Container
+      class="relative flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between"
+    >
+      {
+        hasNext ? (
+          <div>
+            <p class="font-mono text-label text-subtle uppercase">
+              Next case study
+            </p>
+            <h2 class="mt-3 text-2xl font-semibold tracking-tight">
+              <a
+                href={`/work/${next.id}`}
+                class="rounded-sm transition-colors duration-200 hover:text-accent"
+              >
+                {next.data.title}
+              </a>
+            </h2>
+          </div>
+        ) : (
+          <div>
+            <p class="font-mono text-label text-subtle uppercase">
+              Next
+            </p>
+            <h2 class="mt-3 text-2xl font-semibold tracking-tight">Let's talk.</h2>
+          </div>
+        )
+      }
+      <Cta href={MAILTO} variant="outline">Get in touch</Cta>
+    </Container>
+  </section>
+</BaseLayout>

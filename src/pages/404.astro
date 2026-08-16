@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/Container.astro';
+import Cta from '../components/Cta.astro';
+---
+
+<BaseLayout title="Page not found" noindex>
+  <Container class="flex min-h-[60vh] flex-col justify-center py-24">
+    <p class="font-mono text-6xl font-medium text-subtle tabular">404</p>
+    <h1 class="mt-6 text-title font-semibold">This page doesn't exist.</h1>
+    <p class="mt-4 max-w-md text-lg text-muted">
+      Either the link is out of date, or I haven't written that one up yet.
+    </p>
+    <div class="mt-9">
+      <Cta href="/" variant="outline">Back to the home page</Cta>
+    </div>
+  </Container>
+</BaseLayout>
