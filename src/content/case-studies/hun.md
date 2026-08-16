@@ -14,7 +14,7 @@ problem: 'Artist sites tend to fail in one of two directions: a template that bu
 solution: 'The artwork carries the design. A set of grainy, high-saturation gradient pieces supplies all the colour, and the UI stays restrained around them. One global grain layer sits over the entire document so the interface and the imagery read as the same material rather than art pasted onto a website. The page works as a standing hub — wordmark, where to listen, who it is, and a mailing list.'
 outcome: "Server Components by default, with 'use client' on only four things: the hero wordmark, the scroll cue, the reveal wrapper and the signup form. The grain and the wordmark drift are pure CSS and SVG and ship no JavaScript at all. Signups go straight to Postgres through a Server Action."
 featured: true
-order: 3
+order: 4
 draft: false
 # Add images by dropping files next to this file and uncommenting:
 # cover: ./cover.png
