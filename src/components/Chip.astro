@@ -1,0 +1,25 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+/**
+ * Small muted pill for technology names and short labels.
+ *
+ * Extracted from the identical class string that was inlined in Services and
+ * the case study stack list — this is the site's one chip, not a new primitive.
+ */
+type Props = HTMLAttributes<'span'> & {
+  as?: 'span' | 'li';
+};
+
+const { as: Tag = 'span', class: className, ...rest } = Astro.props;
+---
+
+<Tag
+  class:list={[
+    'inline-flex items-center rounded border border-border bg-surface px-2 py-1 font-mono text-label text-muted',
+    className,
+  ]}
+  {...rest}
+>
+  <slot />
+</Tag>

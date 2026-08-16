@@ -7,6 +7,7 @@ import Container from '../../components/Container.astro';
 import Eyebrow from '../../components/Eyebrow.astro';
 import Cta from '../../components/Cta.astro';
 import SectionGrid from '../../components/SectionGrid.astro';
+import Chip from '../../components/Chip.astro';
 import { MAILTO } from '../../consts';
 
 export const getStaticPaths = (async () => {
@@ -97,11 +98,7 @@ const hasNext = next.id !== entry.id;
           </dt>
           <dd class="mt-2 flex flex-wrap gap-1.5">
             {
-              stack.map((tech) => (
-                <span class="rounded border border-border bg-surface px-2 py-1 font-mono text-[0.6875rem] text-muted">
-                  {tech}
-                </span>
-              ))
+              stack.map((tech) => <Chip>{tech}</Chip>)
             }
           </dd>
         </div>

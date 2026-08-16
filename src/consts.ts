@@ -55,6 +55,27 @@ export const SERVICES = [
 ] as const;
 
 /**
+ * Two tiers, deliberately not equal. The hero stays generic, so this is where
+ * the site is specific about what's senior-level and what isn't.
+ */
+export const EXPERTISE = [
+  {
+    tier: 'Primary',
+    title: 'Frontend',
+    summary:
+      "Most of my career has been here, and it's where I lead teams. Design systems, state that got complicated, accessibility, and pages that stay fast on a bad connection. This is the part I'd stake a reputation on.",
+    skills: ['React', 'Next.js', 'Vue', 'TypeScript', 'JavaScript', 'shadcn/ui'],
+  },
+  {
+    tier: 'Secondary',
+    title: 'Full-stack',
+    summary:
+      "Enough to take a product from schema to shipped on my own: auth, data model, and the security rules that keep one customer's data away from another's. I use AI tooling to move quickly outside my core, and I'd rather say that plainly than imply the same depth I have on the frontend.",
+    skills: ['Supabase', 'Postgres', 'Auth & RLS', 'Edge Functions', 'Stripe'],
+  },
+] as const;
+
+/**
  * Compact track record. Employers are described rather than named, so the site
  * doesn't advertise freelance availability alongside a current employer's brand.
  */
