@@ -24,12 +24,15 @@ const PAPER = '#fdfdfe';
 const SANS = 'Helvetica Neue, Helvetica, Arial, sans-serif';
 const MONO = 'SF Mono, Menlo, Consolas, monospace';
 
-/** A geometric "A": two strokes and a crossbar. */
+/**
+ * The plus mark, lifted from the section rails in SectionGrid.astro. Chosen
+ * over a monogram because it survives 16px: two strokes stay legible at tab
+ * size where a letterform turns to mush.
+ */
 const mark = (size, stroke) => `
-  <g fill="none" stroke="${stroke}" stroke-width="${size * 0.1}"
-     stroke-linecap="square" stroke-linejoin="miter">
-    <path d="M${size * 0.28} ${size * 0.73} L${size * 0.5} ${size * 0.27} L${size * 0.72} ${size * 0.73}" />
-    <path d="M${size * 0.375} ${size * 0.57} L${size * 0.625} ${size * 0.57}" />
+  <g fill="none" stroke="${stroke}" stroke-width="${size * 0.085}" stroke-linecap="butt">
+    <path d="M${size * 0.5} ${size * 0.22} V${size * 0.78}" />
+    <path d="M${size * 0.22} ${size * 0.5} H${size * 0.78}" />
   </g>`;
 
 const iconSvg = (size) => `
